@@ -22,12 +22,14 @@ jobs:
         cache: maven
     - name: Install old parent
       run: mvn install -f eclipse-platform-parent/ --non-recursive
+    - name: Install old target
+      run: mvn install -f eclipse.platform.releng.prereqs.sdk/ --non-recursive
     - name: Update Main Versions
       run: mvn -ntp -f eclipse-platform-parent/pom.xml --non-recursive org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:set-version -DnewVersion=${{ github.event.milestone.title }}.0-SNAPSHOT
     - name: Update Release Versions
       run: mvn -ntp -f eclipse-platform-parent/pom.xml --non-recursive org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:set-property -Dproperties=releaseNumberSDK,releaseNumberPlatform -DnewReleaseNumberSDK=${{ github.event.milestone.title }} -DnewReleaseNumberPlatform=${{ github.event.milestone.title }}
-    - name: Update POM Parent Versions (as much as possible)
-      run: find -name pom.xml -exec mvn -ntp -f {} -fn --non-recursive org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:set-parent-version -DnewParentVersion=${{ github.event.milestone.title }}.0-SNAPSHOT {} org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:update-eclipse-metadata \;
+    - name: Update Target Module
+      run: mvn -ntp -f eclipse.platform.releng.prereqs.sdk/pom.xml --non-recursive org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:set-parent-version -DnewParentVersion=${{ github.event.milestone.title }}.0-SNAPSHOT
     - name: Create Pull Request for Release ${{ github.event.milestone.title }}
       uses: peter-evans/create-pull-request@v4
       with:
