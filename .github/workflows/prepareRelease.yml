@@ -21,9 +21,9 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Install old parent
-      run: mvn install -f eclipse-platform-parent/ --non-recursive
+      run: mvn install -f eclipse-platform-parent/ --non-recursive -ntp
     - name: Install old target
-      run: mvn install -f eclipse.platform.releng.prereqs.sdk/ --non-recursive
+      run: mvn install -f eclipse.platform.releng.prereqs.sdk/ --non-recursive  -ntp
     - name: Update Main Versions
       run: mvn -ntp -f eclipse-platform-parent/pom.xml --non-recursive org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:set-version -DnewVersion=${{ github.event.milestone.title }}.0-SNAPSHOT
     - name: Update Release Versions
