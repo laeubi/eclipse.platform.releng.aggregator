@@ -22,12 +22,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Install old parent
-      run: mvn install -f eclipse-platform-parent/ --non-recursive -ntp
-    - name: Install old target
-      run: mvn install -f eclipse.platform.releng.prereqs.sdk/ --non-recursive  -ntp
     - name: Update Main Versions
-      run: mvn -ntp -pl eclipse-platform-parent,eclipse.platform.releng.prereqs.sdk org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:set-version -DnewVersion=${{ github.event.milestone.title }}.0-SNAPSHOT
+      run: mvn -ntp -f eclipse-platform-parent org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:set-version -DnewVersion=${{ github.event.milestone.title }}.0-SNAPSHOT -Dmodules=../eclipse.platform.releng.prereqs.sdk
     - name: Update Release Versions
       run: mvn -ntp -f eclipse-platform-parent/pom.xml --non-recursive org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:set-property -Dproperties=releaseNumberSDK,releaseNumberPlatform -DnewReleaseNumberSDK=${{ github.event.milestone.title }} -DnewReleaseNumberPlatform=${{ github.event.milestone.title }}
     - name: Create Pull Request for Release ${{ github.event.milestone.title }}
