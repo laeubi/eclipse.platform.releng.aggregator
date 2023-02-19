@@ -1233,6 +1233,9 @@
 		</build>
 	</profile>
   </profiles>
+  <module>
+	  <module>../eclipse.platform.releng.prereqs.sdk</module>
+  </module>
   <scm>
     <connection>scm:git:https://github.com/eclipse-platform/eclipse.platform.releng.aggregator.git</connection>
   </scm>
