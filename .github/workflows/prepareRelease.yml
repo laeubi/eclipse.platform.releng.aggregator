@@ -20,12 +20,12 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Update Target Module  # must run first as otherwhise the current parent reference is no longer valid an maven will fail!
+      run: mvn -ntp -f eclipse.platform.releng.prereqs.sdk/pom.xml --non-recursive org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:set-parent-version -DnewParentVersion=${{ github.event.milestone.title }}.0-SNAPSHOT
     - name: Update Main Versions
       run: mvn -ntp -f eclipse-platform-parent/pom.xml --non-recursive org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:set-version -DnewVersion=${{ github.event.milestone.title }}.0-SNAPSHOT
     - name: Update Release Versions
       run: mvn -ntp -f eclipse-platform-parent/pom.xml --non-recursive org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:set-property -Dproperties=releaseNumberSDK,releaseNumberPlatform -DnewReleaseNumberSDK=${{ github.event.milestone.title }} -DnewReleaseNumberPlatform=${{ github.event.milestone.title }}
-    - name: Update Target Module
-      run: mvn -ntp -f eclipse.platform.releng.prereqs.sdk/pom.xml --non-recursive org.eclipse.tycho:tycho-versions-plugin:4.0.0-SNAPSHOT:set-parent-version -DnewParentVersion=${{ github.event.milestone.title }}.0-SNAPSHOT
     - name: Create Pull Request for Release ${{ github.event.milestone.title }}
       uses: peter-evans/create-pull-request@v4
       with:
