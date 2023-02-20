@@ -14,7 +14,7 @@ jobs:
     - id: get-release-name
       run: |
         name=$(echo ${{ github.event.milestone.due_on }} | cut -d- -f-2)
-        echo "::set-output name=name::$name"
+        echo "name=$name" >> $GITHUB_OUTPUT
     - uses: actions/checkout@v3
       with:
         ref: master    # as not triggered by a commit we need to give explicit reference here
