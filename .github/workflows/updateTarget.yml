@@ -36,7 +36,7 @@ jobs:
     - name: Update Target Platform
       run: >-
           mvn -ntp -f ${{ inputs.path }} 
-          tycho-version-bump:update-target@update-target
+          tycho-version-bump:update-target@update-target -X
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v7.0.5
       with:
