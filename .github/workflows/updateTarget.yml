@@ -51,7 +51,7 @@ jobs:
         commit-message: Update target-platform with latest version
         branch: update_target
         title: Dependency Updates
-        body-path: ${{ inputs.path }} /target/targetUpdates.md
+        body-path: ${{ inputs.path }}/target/targetUpdates.md
         delete-branch: true
         draft: false
         token: ${{ secrets.token }}
