@@ -37,7 +37,7 @@ jobs:
     - name: Update Target Platform
       working-directory: ${{ inputs.path }} 
       run: >-
-          mvn -ntp -f --non-recursive  
+          mvn -ntp --non-recursive
           tycho-version-bump:update-target@update-target
     - name: Create PR description file if missing
       if: ${{ hashFiles(format('{0}/target/targetUpdates.md', inputs.path)) == '' }}
